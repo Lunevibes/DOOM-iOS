@@ -1,75 +1,21 @@
-#  DOOM, DOOM II and Final DOOM for iOS 11 and tvOS for Apple TV
+#  DOOM, DOOM II and Final DOOM for iOS 11+
 
-This is my update for DOOM for iOS to run on iOS 11, running in modern resolutions including the full width of the iPhone X. I have also made a target and version for tvOS to run on Apple TV. Additionally, I have included targets to create apps for DOOM II and Final DOOM.
+This clean update aims Schnapple (tomkidd) 64bit DOOM to be compiled and archived on earlier Xcode version (tested on Xcode 8). My fork doesn't support tvOS, for that please visit [his](https://github.com/tomkidd/DOOM-iOS)
 
-Improvements/Changes
+To be compiled, the build requires some copyrighted file you can provide from the original app: you can purchase / download it using this (old) version of [iTunes](https://support.apple.com/en-us/HT208079)
 
-- Compiles and runs in iOS 11 SDK
-- Orientation and coordinate system fixed to reflect iOS 8 changes
-- C warnings fixed for Xcode 9.3
-- Basic MFi controller support
-- Structure and View Controller usage grafted in from the DOOM-iOS2 repository and public user forks, unused code and embedded xcodeproj use eliminated
-- Second project target for tvOS that takes advantage of focus model and removes on-screen controls.
+#  Build Instructions
+- Copy your DOOM 2.7.ipa in the main folder where `extract_files.sh` script is located
+- Open your terminal and move to that folder
+- Run `./extract_files.sh DOOM\ 2.7.ipa`. This will also add `doom.wad` in `base` folder to build DOOM-iOS target. To build other targets you have to copy your `doom2.wad`, `plutonia.wad` and `tnt.wad` in the same folder. 
+- Open `DOOM.xcworkspace`
+- Select a DOOM-iOS target and tick `Automatically manage signing` in General tab
+- Click `Enable Automatic` and add your account (Apple ID)
+- You can change `Generic iOS Device` in the top and then press Play button to directly compile the build on your device (or simulator), otherwise: Product -> Archive will build an .xcarchive file. Once done, click `Show in Finder` -> `Show Package Content` then Products -> Applications and copy your .app file wherever you want to. You can install it on your device connecting it, then Xcode -> Window -> Devices, select your device and click `+` button.
 
-This commit uses all new images for the menus and fonts. You will still need to provide your own copy of `doom.wad` for DOOM, `doom2.wad` for DOOM II, and `tnt.wad` and `plutonia.wad` for Final DOOM. 
-
-You can find the file `doom.wad` in any installation of DOOM, available on [Steam](http://store.steampowered.com/app/2280/Ultimate_Doom/), [GOG](https://www.gog.com/game/the_ultimate_doom), and floppy disk from 1-800-IDGAMES (note: do not call 1-800-IDGAMES I don't know where it goes anymore). 
-
-`doom2.wad` is in any installation of DOOM II, available on [Steam](https://store.steampowered.com/app/2300/DOOM_II/) or [GOG](https://www.gog.com/game/doom_ii_final_doom)
-
-`tnt.wad` and `plutonia.wad` are in any installation of Final DOOM, available on [Steam](https://store.steampowered.com/app/2290/Final_DOOM/) or [GOG](https://www.gog.com/game/doom_ii_final_doom) (note that GOG sells DOOM II and Final DOOM packaged together)  
-
-This repo contains changes from id's [DOOM-iOS2](https://github.com/id-Software/DOOM-IOS2) repo (different than the parent of this repo), changes from the [FinalJudgement](https://github.com/JadingTsunami/FinalJudgment-iOS) repo by [JadingTsunami](https://github.com/JadingTsunami/), and [MFi controller code](https://github.com/TheRohans/DOOM-IOS2/commit/5a6b69d5e9821134f4013b069faef29190dcd7a1) from [TheRohans](https://github.com/TheRohans/). I incorporated the efforts of [yarsrevenge](https://github.com/yarsrvenge/DOOM-IOS2) in getting the basics of the tvOS versions going. 
-
-I wrote a [lengthy article](http://schnapple.com/wolfenstein-3d-and-doom-on-ios-11/) on the process of making these ports. For a rundown of the effort to get it running on tvOS, I wrote a [second lenghty article](http://schnapple.com/wolfenstein-3d-and-doom-on-tvos-for-apple-tv/) on the subject. 
-
-A previous version of this repo required the use of a file called `base.iPack` from an existing copy of the iPhone version of DOOM in  order for the DOOM port to work, but I have now added a "clean room" version of that file and included the resources necessary to build it in case anyone wants to tweak or improve it. Credits for the images used are included below. A third lengthy article on the subject of the base.iPack file and adding the additional two games can be found [here](http://schnapple.com/doom-ii-and-final-doom-for-ios-and-tvos).
-
-[Video of DOOM running on an iPhone X](https://www.youtube.com/watch?v=IrY5L1kn-NA)
-
-[Video of DOOM running on an Apple TV](https://www.youtube.com/watch?v=P8QmMSabaqQ)
-
-Have fun. For any questions I can be reached at tomkidd@gmail.com
-
----
-
-base.iPack icon and texture credits:
-
-Font texture created with [LMNOpc Font Builder](http://www.lmnopc.com/bitmapfontbuilder/) by Thom Wetzel
-
-Font used is [ChicagoFLF](https://fontlibrary.org/en/font/chicagoflf), public domain
-
-[Control Pad by Guillaume Berry from the Noun Project](https://thenounproject.com/term/control-pad/40359)
-
-[explosion by BomSymbols from the Noun Project](https://thenounproject.com/term/explosion/938854)
-
-[Compass by Adrien Coquet from the Noun Project](https://thenounproject.com/term/compass/1941270)
-
-[Move by useiconic.com from the Noun Project](https://thenounproject.com/term/move/45502)
-
-[turn by shashank singh from the Noun Project](https://thenounproject.com/term/turn/530562)
-
-[drive by priyanka from the Noun Project](https://thenounproject.com/term/drive/1568697)
-
-[Melted Paint](https://publicdomaintextures.wordpress.com/2014/02/14/melted-paint/)
-
-[Plaster in Black and White](https://publicdomaintextures.wordpress.com/2014/04/03/plaster-in-black-and-white/)
-
-[Tool by Ker'is from the Noun Project](https://thenounproject.com/term/tool/1977834)
-
-[circle arrow by Paul Verhulst from the Noun Project](https://thenounproject.com/term/circle-arrow/1979648)
-
-[Save by Markus from the Noun Project](https://thenounproject.com/term/save/1715647)
-
-[Skull by Andrew Cameron from the Noun Project](https://thenounproject.com/term/skull/131075)
-
-[Skull by Andrew Cameron from the Noun Project](https://thenounproject.com/term/skull/131076)
+Enjoy!
 
 
-
-Click sound effects
-[1](https://freesound.org/people/EdgardEdition/sounds/113634/)
-[2](https://freesound.org/people/dersuperanton/sounds/435845/)
-[3](https://freesound.org/people/Eponn/sounds/420997/)
-[4](https://freesound.org/people/BehanSean/sounds/422431/)
-
+`Minor bugs:`
+- Noise on background music needs to be removed / reduced
+- iPad interface builder .xib need to be fixed to work well on all iPads

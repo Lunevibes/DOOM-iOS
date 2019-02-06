@@ -19,7 +19,7 @@
  */
 
 #include "doomiphone.h"
-#include "TargetConditionals.h"
+//#include "TargetConditionals.h"
 #include <math.h>
 
 hud_t	huds;

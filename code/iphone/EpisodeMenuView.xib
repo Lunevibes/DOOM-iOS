@@ -1,13 +1,19 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="15G22010" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="landscape">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <array key="Helvetica.ttc">
+            <string>Helvetica</string>
+            <string>Helvetica-Bold</string>
+        </array>
+    </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="Doom_EpisodeMenuViewController">
             <connections>
@@ -23,7 +29,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" image="background" translatesAutoresizingMaskIntoConstraints="NO" id="32" userLabel="Background">
-                    <rect key="frame" x="-120" y="0.0" width="720" height="320"/>
+                    <rect key="frame" x="0.0" y="0.0" width="480" height="320"/>
                 </imageView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="33" customClass="idLabelButton">
                     <rect key="frame" x="425" y="264" width="50" height="50"/>
@@ -44,7 +50,7 @@
                         <outlet property="label" destination="35" id="59"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="34" customClass="idLabelButton">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="34" userLabel="BButton" customClass="idLabelButton">
                     <rect key="frame" x="0.0" y="264" width="50" height="50"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="50" id="8cV-bE-4qf"/>
@@ -76,7 +82,7 @@
                     <color key="textColor" red="0.7254902124" green="0.42352941630000002" blue="0.066666670139999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <color key="highlightedColor" red="1" green="0.80000001190000003" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 </label>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="EP4-6v-AXq">
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="EP4-6v-AXq">
                     <rect key="frame" x="68" y="8" width="344" height="304"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
@@ -90,15 +96,19 @@
             </subviews>
             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
+                <constraint firstItem="32" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="17x-nR-liM"/>
                 <constraint firstAttribute="bottom" secondItem="33" secondAttribute="bottom" constant="6" id="6I4-eH-Kio"/>
                 <constraint firstItem="35" firstAttribute="centerX" secondItem="33" secondAttribute="centerX" id="9Cq-Kq-74T"/>
                 <constraint firstAttribute="trailing" secondItem="33" secondAttribute="trailing" constant="5" id="Bkb-L6-vAu"/>
                 <constraint firstAttribute="bottom" secondItem="34" secondAttribute="bottom" constant="6" id="BmX-Rh-qdF"/>
                 <constraint firstItem="34" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="DwT-zF-SKN"/>
                 <constraint firstAttribute="bottom" secondItem="32" secondAttribute="bottom" id="FB4-cz-l5B"/>
+                <constraint firstItem="32" firstAttribute="centerY" secondItem="1" secondAttribute="centerY" id="HVt-M5-inK"/>
                 <constraint firstItem="33" firstAttribute="top" secondItem="35" secondAttribute="bottom" constant="-13" id="ICN-Hw-g7l"/>
+                <constraint firstAttribute="bottom" secondItem="36" secondAttribute="bottom" constant="43" id="KT3-of-M7W"/>
                 <constraint firstAttribute="bottom" secondItem="EP4-6v-AXq" secondAttribute="bottom" constant="8" id="M43-ce-c6C"/>
                 <constraint firstItem="36" firstAttribute="centerX" secondItem="34" secondAttribute="centerX" id="czo-yR-Dd2"/>
+                <constraint firstAttribute="trailing" secondItem="32" secondAttribute="trailing" id="dyy-pD-uje"/>
                 <constraint firstItem="EP4-6v-AXq" firstAttribute="centerX" secondItem="1" secondAttribute="centerX" id="jhE-Cr-nu4"/>
                 <constraint firstItem="32" firstAttribute="top" secondItem="1" secondAttribute="top" id="lGq-xi-Duj"/>
                 <constraint firstItem="34" firstAttribute="top" secondItem="36" secondAttribute="bottom" constant="-13" id="qNp-lB-ANb"/>
@@ -114,6 +124,6 @@
         <image name="BackButton.png" width="93" height="94"/>
         <image name="Episode1Background.png" width="601" height="150"/>
         <image name="NextButton.png" width="93" height="94"/>
-        <image name="background" width="720" height="480"/>
+        <image name="background" width="960" height="640"/>
     </resources>
 </document>

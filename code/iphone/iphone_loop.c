@@ -19,7 +19,6 @@
  */
 
 #include "doomiphone.h"
-#include "TargetConditionals.h"
 
 playState_t playState;
 
@@ -126,14 +125,8 @@ touch_t *TouchInBounds( int x, int y, int w, int h ) {
 		}
 		if ( t->x >= x && t->x < x + w
 			&& t->y >= y && t->y < y + h ) {
-            // JDS Debug
-            //printf("Touch HIT! %d vs. %d / %d vs. %d (%d %d)\n",x,t->x,y,t->y,w,h);
 			return t;
 		}
-        // JDS Debug
-        else {
-            //printf("Touch missed %d vs. %d / %d vs. %d (%d %d)\n",x,t->x,y,t->y,w,h);
-        }
 	}
 	return NULL;
 }
@@ -160,7 +153,7 @@ touch_t *UpdateHudTouch( ibutton_t *hud ) {
 		// hud element isn't active
 		return NULL;
 	}
-    
+	
 	if ( !hud->touch ) {
 		// see if a free touch was just made in, or dragged into the bounds
 		// make the active boxes twice as large as the drawing bounds
@@ -170,7 +163,6 @@ touch_t *UpdateHudTouch( ibutton_t *hud ) {
 		int h = hud->drawHeight << 1;
 		
 		hud->touch = TouchInBounds( x, y, w, h );
-        //printf("TIB: %d %d %d %d -> %s\n",x,y,w,h,(hud->touch == NULL) ? "none" : "found" );
 		if ( hud->touch ) {
 			// claim this touch so it won't activate anything else
 			hud->touch->controlOwner = hud;
@@ -191,14 +183,14 @@ touch_t *UpdateHudTouch( ibutton_t *hud ) {
 			if ( hud->downX < width ) {
 				hud->downX = width;
 			}
-            if ( hud->downX + width > displaywidth ) {
-                hud->downX = displaywidth - width;
+			if ( hud->downX + width > displaywidth ) {
+				hud->downX = displaywidth - width;
 			}
 			if ( hud->downY < height ) {
 				hud->downY = height;
 			}
-            if ( hud->downY > displayheight - height ) {
-                hud->downY = displayheight - height;
+			if ( hud->downY > displayheight - height ) {
+				hud->downY = displayheight - height;
 			}
 		}
 	}
@@ -220,9 +212,8 @@ void SetButtonPics( ibutton_t *button, const char *picBase, const char *title, i
 	button->texture = PK_FindTexture( picBase );	
 	button->scale = 1.0f;
 	button->title = title;
-    
-    button->x = x * ((float)displaywidth) / 480.0f;
-    button->y = y * ((float)displayheight) / 320.0f;
+	button->x = x * ((float)displaywidth) / 480.0f;
+	button->y = y * ((float)displayheight) / 320.0f;
     
     float xRatio = ((float)displaywidth) / 480.0f;
     float yRatio = ((float)displayheight) / 320.0f;
@@ -235,6 +226,7 @@ void SetButtonPics( ibutton_t *button, const char *picBase, const char *title, i
 
 void SetButtonPicsAndSizes( ibutton_t *button, const char *picBase, const char *title, int x, int y, int w, int h ) {	
 	SetButtonPics( button, picBase, title, x, y );
+    
     
     float xRatio = ((float)displaywidth) / 480.0f;
     float yRatio = ((float)displayheight) / 320.0f;
@@ -394,40 +386,34 @@ boolean HandleButton( ibutton_t *button ) {
 		glTexEnvf( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_COMBINE );
 		glTexEnvf( GL_TEXTURE_ENV, GL_RGB_SCALE, 2.0 );
 	}
-    
 	PK_StretchTexture( button->texture, button->x+button->drawWidth/2 - button->drawWidth/2 * button->scale, 
 					  button->y + button->drawHeight/2 - button->drawHeight/2 * button->scale, 
 					  button->drawWidth * button->scale, button->drawHeight * button->scale );
-    
 	if ( button->buttonFlags & BF_GLOW ) {
 		glTexEnvf( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE );
 		glColor4f( 1, 1, 1, 1 );
 	}
 	
-    if ( button->title ) {
-        float    length = StringFontWidth( button->title ) * 0.75;
-        float    x = button->x + button->drawWidth/2 - length/2;
-        // don't push the text off the edge of the screen
-        if ( x < 0 ) {
-            x = 0;
-        } else if ( x + length > displaywidth ) {
-            x = displaywidth - length;
-        }
-        float y;
-        float textScale = 0.75;
-        if ( button->buttonFlags & BF_CENTERTEXT ) {
-            glColor4f( 1, 1, 1, 1 );    // !@# remove when we get a button background that doesn't need dimming
-            y = button->y + button->drawHeight / 2 + 8;
-            textScale *= button->scale;        // animate text scale when centered
-        } else {
-            y = button->y + button->drawHeight + 16;
-        }
-        
-        textScale *= screenResolutionScale * 2;
-        
-        iphoneDrawText( x, y, textScale, button->title );
-    }
-
+	if ( button->title ) {
+		float	length = StringFontWidth( button->title ) * 0.75;
+		float	x = button->x + button->drawWidth/2 - length/2;
+		// don't push the text off the edge of the screen
+		if ( x < 0 ) {
+			x = 0;
+		} else if ( x + length > displaywidth ) {
+			x = displaywidth - length;
+		}
+		float y;
+		float textScale = 0.75;
+		if ( button->buttonFlags & BF_CENTERTEXT ) {
+			glColor4f( 1, 1, 1, 1 );	// !@# remove when we get a button background that doesn't need dimming
+			y = button->y + button->drawHeight / 2 + 8;
+			textScale *= button->scale;		// animate text scale when centered
+		} else {
+			y = button->y + button->drawHeight + 16;
+		}
+		iphoneDrawText( x, y, textScale, button->title );
+	}
 	
 	glColor4f( 1, 1, 1, 1 );
 	
@@ -464,57 +450,53 @@ float	StringFontWidth( const char *str ) {
  ==================
  */
 float iphoneDrawText( float x, float y, float scale, const char *str ) {
+    
+	float	fx = x;
+	float	fy = y;
 
-float    fx = x;
-float    fy = y;
+	PK_BindTexture( arialFontTexture );
+	glBegin( GL_QUADS );
+	
+	while ( *str ) {
+		int i = *str;
+		if ( i >= ' ' && i < 128 ) {
+			GlyphRect *glyph = &glyphRects[i-32];
+			
+			// the glyphRects don't include the shadow outline
+			float	x0 = ( glyph->x0 - 1 ) / 256.0;
+			float	y0 = ( glyph->y0 - 1 ) / 256.0;
+			float	x1 = ( glyph->x1 + 2 ) / 256.0;
+			float	y1 = ( glyph->y1 + 2 ) / 256.0;
+			
+			float	width = ( x1 - x0 ) * 256 * scale;
+			float	height = ( y1 - y0 ) * 256 * scale;
+			
+			float	xoff = ( glyph->xoff - 1 ) * scale;
+			float	yoff = ( glyph->yoff - 1 ) * scale;
+			
+			glTexCoord2f( x0, y0 );
+			glVertex2f( fx + xoff, fy + yoff );
+			
+			glTexCoord2f( x1, y0 );
+			glVertex2f( fx + xoff + width, fy + yoff );
+			
+			glTexCoord2f( x1, y1 );
+			glVertex2f( fx + xoff + width, fy + yoff + height );
+			
+			glTexCoord2f( x0, y1 );
+			glVertex2f( fx + xoff, fy + yoff + height );
 
-PK_BindTexture( arialFontTexture );
-glBegin( GL_QUADS );
-
-while ( *str ) {
-    int i = *str;
-    if ( i >= ' ' && i < 128 ) {
-        GlyphRect *glyph = &glyphRects[i-32];
-        
-        // the glyphRects don't include the shadow outline
-        float    x0 = ( glyph->x0 - 1 ) / 256.0;
-        float    y0 = ( glyph->y0 - 1 ) / 256.0;
-        float    x1 = ( glyph->x1 + 2 ) / 256.0;
-        float    y1 = ( glyph->y1 + 2 ) / 256.0;
-        
-        float    width = ( x1 - x0 ) * 256 * scale;
-        float    height = ( y1 - y0 ) * 256 * scale;
-        
-        float    xoff = ( glyph->xoff - 1 ) * scale;
-        float    yoff = ( glyph->yoff - 1 ) * scale;
-        
-        // red would be awesome here but it's kinda hard to read
-//        glColor4f( 1, 0, 0, 1 );
-        
-        glTexCoord2f( x0, y0 );
-        glVertex2f( fx + xoff, fy + yoff );
-        
-        glTexCoord2f( x1, y0 );
-        glVertex2f( fx + xoff + width, fy + yoff );
-        
-        glTexCoord2f( x1, y1 );
-        glVertex2f( fx + xoff + width, fy + yoff + height );
-        
-        glTexCoord2f( x0, y1 );
-        glVertex2f( fx + xoff, fy + yoff + height );
-        
-        // with our default texture, the difference is negligable
-        fx += glyph->xadvance * scale;
-        //            fx += ceil(glyph->xadvance);    // with the outline, ceil is probably the right thing
-    }
-    str++;
+			// with our default texture, the difference is negligable
+			fx += glyph->xadvance * scale;
+//			fx += ceil(glyph->xadvance);	// with the outline, ceil is probably the right thing
+		}
+		str++;
+	}
+	
+	glEnd();
+	
+	return fx - x;
 }
-
-glEnd();
-
-return fx - x;
-}
-
 
 /*
  ==================
@@ -529,9 +511,9 @@ float iphoneCenterText( float x, float y, float scale, const char *str ) {
     x *= ((float)displaywidth) / 480.0f;
     y *= ((float)displayheight) / 320.0f;
     
-	x -= l * scale * 0.5 * screenResolutionScale * 2;
+	x -= l * scale * 0.5;
     
-	return iphoneDrawText( x, y, scale * screenResolutionScale * 2, str );
+	return iphoneDrawText( x, y, scale, str );
 }
 
 
@@ -679,7 +661,6 @@ void iphoneSet2D( void ) {
 	// note that GL thinks the iphone is always
 	// in portrait mode as far as the framebuffer
 	// is concerned.
-    /* JDS proper fix for landscape orientation */
 	glViewport( 0,0, displaywidth, displayheight );
 	glMatrixMode( GL_MODELVIEW );
     glLoadIdentity();
@@ -803,7 +784,6 @@ void iphoneHighlightPicWhenTouched( pkTexture_t *texture, int x, int y, int w, i
 	} else {
 		glColor4f(1,1,1,0.5);
 	}
-
 	PK_StretchTexture( texture, x, y, w, h );
 	glColor4f(1,1,1,1);
 }
@@ -866,12 +846,12 @@ void iphoneDrawRotorControl( ibutton_t *hud ) {
 	}
 	pkTexture_t *tex = hud->texture;
 	PK_BindTexture( tex );
-    
-    float	cx = (hud->x + hud->drawWidth / 2);
-	float	cy = (hud->y + hud->drawHeight / 2);
+
+	float	cx = hud->x + hud->drawWidth / 2;
+	float	cy = hud->y + hud->drawHeight / 2;
 	float	as = sin( hud->drawState );
 	float	ac = cos( hud->drawState );
-    float	sz = (hud->drawWidth / 2);
+	float	sz = hud->drawWidth / 2;
 	
 	float	xv[2] = { sz*ac, sz*as };
 	float	yv[2] = { -sz*as, sz*ac };
@@ -880,18 +860,11 @@ void iphoneDrawRotorControl( ibutton_t *hud ) {
 	
 	glBegin( GL_TRIANGLE_STRIP );
 	
-	glTexCoord2f( 0.0f, 0.0f );	glVertex2f( (cx - xv[0] - yv[0]), (cy - xv[1] - yv[1]) );
-	glTexCoord2f( tex->textureData->maxS, 0.0f );	glVertex2f( (cx + xv[0] - yv[0]), (cy + xv[1] - yv[1]) );
-	glTexCoord2f( 0.0f, tex->textureData->maxT );	glVertex2f( (cx - xv[0] + yv[0]), (cy - xv[1] + yv[1]) );
-	glTexCoord2f( tex->textureData->maxS, tex->textureData->maxT );	glVertex2f( (cx + xv[0] + yv[0]), (cy + xv[1] + yv[1]) );
-
-    /*
-    glTexCoord2f( 0.0f, 0.0f );    glVertex2f( cx - xv[0] - yv[0], cy - xv[1] - yv[1] );
-    glTexCoord2f( tex->textureData->maxS, 0.0f );    glVertex2f( cx + xv[0] - yv[0], cy + xv[1] - yv[1] );
-    glTexCoord2f( 0.0f, tex->textureData->maxT );    glVertex2f( cx - xv[0] + yv[0], cy - xv[1] + yv[1] );
-    glTexCoord2f( tex->textureData->maxS, tex->textureData->maxT );    glVertex2f( cx + xv[0] + yv[0], cy + xv[1] + yv[1] );
-    */
-    
+	glTexCoord2f( 0.0f, 0.0f );	glVertex2f( cx - xv[0] - yv[0], cy - xv[1] - yv[1] );
+	glTexCoord2f( tex->textureData->maxS, 0.0f );	glVertex2f( cx + xv[0] - yv[0], cy + xv[1] - yv[1] );
+	glTexCoord2f( 0.0f, tex->textureData->maxT );	glVertex2f( cx - xv[0] + yv[0], cy - xv[1] + yv[1] );
+	glTexCoord2f( tex->textureData->maxS, tex->textureData->maxT );	glVertex2f( cx + xv[0] + yv[0], cy + xv[1] + yv[1] );
+	
 	glEnd();
 }
 
@@ -901,11 +874,6 @@ void iphoneDrawRotorControl( ibutton_t *hud ) {
 
 
 void iphoneDrawHudControl( ibutton_t *hud ) {
-    
-    if (TARGET_OS_TV) {
-        return;
-    }
-    
 	if ( hud->buttonFlags & BF_IGNORE ) {
 		return;
 	}
@@ -934,8 +902,6 @@ void iphoneDrawHudControl( ibutton_t *hud ) {
 		x = hud->touch->x - w*0.5f;
 		y = hud->touch->y - h*0.5f;
 	}
-    
-
 	PK_StretchTexture( hud->texture, x, y, w, h );
 	glColor4f(1,1,1,1);
 }
@@ -1105,7 +1071,7 @@ void AutomapControls() {
 			prevY = t->y;
 		}
 		m_x -= ( t->x - prevX ) * (float)m_w / displaywidth;
-		m_y += ( t->y - prevY ) * (float)m_w / displaywidth;
+		m_y += ( t->y - prevY ) * (float)m_w / displaywidth;					
 		m_x2 = m_x + m_w;
 		m_y2 = m_y + m_h;
 		
@@ -1176,6 +1142,12 @@ void DrawWeapon(int weaponlump, int x, int y, int w, int h, int lightlevel)
 	GLTexture *gltexture;
 	float fU1,fU2,fV1,fV2;
 	int x1,y1,x2,y2;
+	
+    if( displaywidth >= 960 ) {
+        weaponSelectDrawScale = 1.25f;
+    } else {
+        weaponSelectDrawScale = 0.75f;
+    }
     
     x *= ((float)displaywidth) / 480.0f;
     y *= ((float)displayheight) / 320.0f;
@@ -1190,7 +1162,7 @@ void DrawWeapon(int weaponlump, int x, int y, int w, int h, int lightlevel)
 		return;
 
 	float	scaledWidth = gltexture->width * weaponSelectDrawScale;
-	float	scaledHeight = gltexture->height * weaponSelectDrawScale; // JDS Hack
+	float	scaledHeight = gltexture->height * weaponSelectDrawScale;
 	
 	// pin the middle bottom of the patch to the middle bottom of
 	// the draw rectangle, then let everything else scale as needed
@@ -1300,7 +1272,6 @@ void DrawWeaponSelect() {
         float nw = w * ((float)displaywidth) / 480.0f;
         float nh = h * ((float)displayheight) / 320.0f;
         
-        
 		if ( selectable && TouchDown( nx, ny, nw, nh ) ) {
 			color[0] = 128;
 			color[1] = color[2] = 128;
@@ -1347,7 +1318,7 @@ void iphoneFrame() {
 	loggedTimes[iphoneFrameNum&(MAX_LOGGED_TIMES-1)].numGameTics = 0;
 	loggedTimes[iphoneFrameNum&(MAX_LOGGED_TIMES-1)].afterSleep =
 	loggedTimes[iphoneFrameNum&(MAX_LOGGED_TIMES-1)].enterFrame = SysIphoneMicroseconds();
-    
+
 	//-------------------------------------------------
 	// grabs the console command under mutex.
 	//-------------------------------------------------
@@ -1525,9 +1496,8 @@ void iphoneFrame() {
 			// this probably doesn't need to be tic-synced, but it doesn't hurt
 			if (players[displayplayer].mo) {
 				// move positional sounds and free up channels that have completed
-                //GUS temporarily removed
-                //S_UpdateSounds(players[displayplayer].mo);
-			}
+				S_UpdateSounds(players[displayplayer].mo);
+			}			
 		}
 	}
 	
@@ -1573,14 +1543,14 @@ void iphoneFrame() {
 	// If we just loaded a level, do the texture precaching after we
 	// have drawn and displayed the first frame, so the user has
 	// something to look at while it is loading.
-//    if ( false ) { // iphoneFrameNum == levelLoadFrameNum + 1 ) {
-//        int    start = SysIphoneMilliseconds();
-//        gld_Precache();
-//        int end = SysIphoneMilliseconds();
-//        Com_Printf( "%3.1f seconds to gld_Precache()\n", (end-start)*0.001f );
-//        timeDemoStart = end;
-//        timeDemoFrames = 0;
-//    }
+	if ( false ) { // iphoneFrameNum == levelLoadFrameNum + 1 ) {
+		int	start = SysIphoneMilliseconds();
+		gld_Precache();
+		int end = SysIphoneMilliseconds();
+		Com_Printf( "%3.1f seconds to gld_Precache()\n", (end-start)*0.001f );
+		timeDemoStart = end;
+		timeDemoFrames = 0;
+	}
 }
 
 int	pacifierCycle;
@@ -1612,17 +1582,11 @@ void iphoneDrawScreen() {
 	if ( statusBar->modified ) {
 		statusBar->modified = false;
 		
-        if ( statusBar->value ) {
-            R_SetViewSize( 10 );
-            hud_displayed = 0;
-            hud_active = 0;
-            hud_distributed = 0;
-        } else {
-            R_SetViewSize( 11 );
-            hud_displayed = 1;
-            hud_active = 2;
-            hud_distributed = 1;
-        }
+		if ( statusBar->value ) {
+			R_SetViewSize( 10 );
+		} else {
+			R_SetViewSize( 11 );
+		}
 	}
 
 	//------------------------------------------------
@@ -1662,7 +1626,7 @@ void iphoneDrawScreen() {
 		// draw rotating pacifier icon 
 		PK_BindTexture( PK_FindTexture( "iphone/loading.tga" ) );
 		glColor4f( 1, 1, 1, 1 );
-        
+
 		float	cx = 240 * ((float)displaywidth) / 480.0f;
 		float	cy = 160 * ((float)displayheight) / 320.0f;
 		float	as = sin( pacifierCycle * M_PI / 4 );
@@ -1694,25 +1658,12 @@ void iphoneDrawScreen() {
 			if ( players[consoleplayer].playerstate == PST_DEAD ) {
 				// when dead, only show the main menu con and the
 				// respawn / load game icons
-#if !TARGET_OS_TV
 				if ( HandleButton( &huds.menu ) ) {
 					iphonePauseMusic();
 					menuState = IPM_MAIN;
                     iphoneMainMenu();
 				}
-#endif
 				if ( !deathmatch && !netgame ) {
-                    
-                    // for now we're going to not draw these on the screen for the TV version
-                    // all you can do is respawn with the USE button (A)
-                    
-#if TARGET_OS_TV
-                    static ibutton_t btnRespawn;
-                    SetButtonPicsAndSizes( &btnRespawn, "iphone/respawn.tga", "Press A to restart", 240 - 48, 80, 96, 96 );
-                    if ( HandleButton( &btnRespawn ) ) {
-//                        players[consoleplayer].playerstate = PST_REBORN;
-                    }
-#else
 					static ibutton_t btnSaved;
 					static ibutton_t btnRespawn;
 					static ibutton_t btnGear;
@@ -1734,7 +1685,6 @@ void iphoneDrawScreen() {
 					    players[consoleplayer].playerstate = PST_REBORN;
 						addGear = true;
 					}
-#endif
 				} else {
 					static ibutton_t btnNetRespawn;
 					if ( !btnNetRespawn.texture ) {
@@ -1757,20 +1707,17 @@ void iphoneDrawScreen() {
 					iphoneDrawRotorControl( &huds.turnRotor );
 //					iphoneDrawHudControl( &huds.fire );
 				}
-                
-                if (!TARGET_OS_TV) {
-                    
-                    if ( HandleButton( &huds.menu ) ) {
-                        iphonePauseMusic();
-                        menuState = IPM_MAIN;
-                        iphoneMainMenu();
-                    }
-                    if ( HandleButton( &huds.map ) ) {
-                        AM_Start();
-                    }
-                    if ( HandleButton( &huds.fire ) ) {
-                    }
-                }
+				
+				if ( HandleButton( &huds.menu ) ) {
+					iphonePauseMusic();
+					menuState = IPM_MAIN;
+                    iphoneMainMenu();
+				}
+				if ( HandleButton( &huds.map ) ) {
+					AM_Start();
+				}
+				if ( HandleButton( &huds.fire ) ) {
+				}
 				
 				if ( netgame ) {
 #if 0				

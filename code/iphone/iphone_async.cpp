@@ -29,7 +29,7 @@
 
 #include "doomiphone.h"
 //#include "DoomGameCenterMatch.h"
-#include "TargetConditionals.h"
+//#include "TargetConditionals.h"
 
 //#include "ios/GameCenter.h"
 

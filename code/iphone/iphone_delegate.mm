@@ -46,10 +46,13 @@ touch_t		gameTouches[MAX_TOUCHES];
 //FIXME: JadingTsunami (fix) const static float ACCELEROMETER_UPDATE_INTERVAL = 1.0f / FRAME_HERTZ;
 
 /*
+
+ 
  ========================
  applicationDidFinishLaunching
  ========================
  */
+    
 - (void)applicationDidFinishLaunching:(UIApplication *)application {
     
     gAppDelegate = self;
@@ -79,6 +82,8 @@ touch_t		gameTouches[MAX_TOUCHES];
     [self InitializeInterfaceBuilder ];
 
 	CommonSystemSetup( [navigationController topViewController] );
+    
+    sleep(2); //mysleep
 	
     // do all the game startup work
 	iphoneStartup();
@@ -245,8 +250,7 @@ touch_t		gameTouches[MAX_TOUCHES];
 - (NSString*) GetFontName
 {
     // To restore usage of the original font, un-comment out this line and comment out the next line
-    //return @"idGinza Narrow";
-    return @"Chicago";
+    return @"idGinza Narrow";
 }
 
 @end
