@@ -12,7 +12,9 @@ To be compiled, the build requires some copyrighted file you can provide from th
 - Select a DOOM-iOS target and tick `Automatically manage signing` in General tab
 - Click `Enable Automatic` and add your account (Apple ID)
 - You can change `Generic iOS Device` in the top and then press Play button to directly compile the build on your device (or simulator), otherwise: Product -> Archive will build an .xcarchive file. Once done, click `Show in Finder` -> `Show Package Content` then Products -> Applications and copy your .app file wherever you want to. You can install it on your device connecting it, then Xcode -> Window -> Devices, select your device and click `+` button.
+
 Note: If Xcode says `Could not attach to pid..` just click Play button again,
+
 Enjoy!
 
 
